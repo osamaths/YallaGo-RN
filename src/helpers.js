@@ -35,7 +35,7 @@ export const generateCoordinatesArray = places => {
   const coordinates = [];
 
   for (let key in places) {
-    coordinates.push(places[key].coordinate);
+    coordinates.push(places[key].location);
   }
 
   return coordinates;
