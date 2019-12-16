@@ -30,7 +30,9 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await axios.get(`http://192.168.8.101:3000/cities`);
+    const res = await axios.get(
+      `https://serene-plateau-10640.herokuapp.com/cities`,
+    );
 
     this.setState({
       currentRegion: getRegionForCoordinates(
@@ -51,7 +53,7 @@ export default class App extends React.Component {
 
   onSelectCity = async city => {
     const res = await axios.get(
-      `http://192.168.8.101:3000/places/${city.title}`,
+      `https://serene-plateau-10640.herokuapp.com/places/${city.title}`,
     );
 
     this.setState({
