@@ -13,6 +13,7 @@ import axios from 'axios';
 import MapView, {Marker} from 'react-native-maps';
 import {generateCoordinatesArray, getRegionForCoordinates} from './src/helpers';
 import {mapStyle} from './src/styles';
+import getDirections from 'react-native-google-maps-directions';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -64,7 +65,46 @@ export default class App extends React.Component {
     });
   };
 
-  onSelectPlace = place => {};
+  onSelectPlace = place => {
+    console.log(place);
+
+    const {
+      location: {latitude, longitude},
+    } = place;
+
+    const data = {
+      destination: {
+        latitude,
+        longitude,
+      },
+      params: [
+        {
+          key: 'travelmode',
+          value: 'driving', // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: 'dir_action',
+          value: 'navigate', // this instantly initializes navigation using the given travel mode
+        },
+      ],
+      waypoints: [
+        // {
+        //   latitude: -33.8600025,
+        //   longitude: 18.697452,
+        // },
+        // {
+        //   latitude: -33.8600026,
+        //   longitude: 18.697453,
+        // },
+        // {
+        //   latitude: -33.8600036,
+        //   longitude: 18.697493,
+        // },
+      ],
+    };
+
+    getDirections(data);
+  };
 
   render() {
     return (
