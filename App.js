@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import axios from 'axios';
 
 import MapView, {Marker} from 'react-native-maps';
 import {generateCoordinatesArray, getRegionForCoordinates} from './src/helpers';
 import {mapStyle} from './src/styles';
 import getDirections from 'react-native-google-maps-directions';
+import PlacesList from './src/components/placesList';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -66,8 +67,6 @@ export default class App extends React.Component {
   };
 
   onSelectPlace = place => {
-    console.log(place);
-
     const {
       location: {latitude, longitude},
     } = place;
@@ -107,14 +106,15 @@ export default class App extends React.Component {
   };
 
   render() {
+    const {currentPlaces, currentRegion} = this.state;
     return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          region={this.state.currentRegion}
+          region={currentRegion}
           // customMapStyle={mapStyle}
         >
-          {this.state.currentPlaces.map((place, i) => (
+          {currentPlaces.map((place, i) => (
             <Marker
               key={i}
               draggable
@@ -128,6 +128,7 @@ export default class App extends React.Component {
             />
           ))}
         </MapView>
+        <PlacesList places={currentPlaces} />
       </View>
     );
   }
@@ -135,19 +136,13 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   map: {
+    width: '100%',
+    height: '100%',
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
   },
 });
