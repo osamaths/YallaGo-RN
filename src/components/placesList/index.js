@@ -16,7 +16,7 @@ const PlacesList = ({places, onClick}) => (
   <View style={styles.container}>
     <FlatList
       data={places}
-      renderItem={({item}) => <Item title={item.title} onClick={onClick} />}
+      renderItem={({item: place}) => <Item place={place} onClick={onClick} />}
       keyExtractor={item => item.title}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
@@ -24,9 +24,11 @@ const PlacesList = ({places, onClick}) => (
   </View>
 );
 
-function Item({title, imgUri, onClick}) {
+function Item({place, onClick}) {
   return (
-    <TouchableOpacity style={styles.itemContainer}>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => onClick(place.location)}>
       <View style={{flex: 3}}>
         <Image
           source={{
@@ -36,8 +38,8 @@ function Item({title, imgUri, onClick}) {
         />
       </View>
       <View style={styles.title}>
-        <Tooltip popover={<Text>{title}</Text>}>
-          <Text numberOfLines={1}>{title}</Text>
+        <Tooltip popover={<Text>{place.title}</Text>}>
+          <Text numberOfLines={1}>{place.title}</Text>
         </Tooltip>
       </View>
     </TouchableOpacity>

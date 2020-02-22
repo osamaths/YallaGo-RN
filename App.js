@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import axios from 'axios';
 
 import MapView, {Marker} from 'react-native-maps';
@@ -105,6 +105,14 @@ export default class App extends React.Component {
     getDirections(data);
   };
 
+  focusOnMarker = location => {
+    this.setState({
+      currentRegion: getRegionForCoordinates(
+        generateCoordinatesArray([{location}]),
+      ),
+    });
+  };
+
   render() {
     const {currentPlaces, currentRegion} = this.state;
     return (
@@ -128,7 +136,7 @@ export default class App extends React.Component {
             />
           ))}
         </MapView>
-        <PlacesList places={currentPlaces} />
+        <PlacesList places={currentPlaces} onClick={this.focusOnMarker} />
       </View>
     );
   }
